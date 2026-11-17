@@ -31,7 +31,7 @@ export function SiteHeader() {
                     isActive(link.href) ? 'bg-coral text-white' : 'text-foreground hover:text-coral',
                   )}
                 >
-                  {link.label}.
+                  {link.label}
                 </Link>
               </li>
             ))}

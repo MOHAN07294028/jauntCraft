@@ -4,8 +4,8 @@ import { useState } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { Button, Card, Col, ConfigProvider, Form, Input, Row } from 'antd'
-import GlobalSpin from '../customcomponents/spinner/page.jsx'
-import useGlobalModal from '../customcomponents/modal/page.jsx'
+import GlobalSpin from '../../components/customcomponents/spinner.jsx'
+import useGlobalModal from '../../components/customcomponents/modal.jsx'
 import { Highlight } from '@/components/site/primitives'
 
 const LoginPage = () => {

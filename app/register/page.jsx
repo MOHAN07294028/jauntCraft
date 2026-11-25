@@ -3,8 +3,8 @@
 
 import { useState } from 'react'
 import axios from 'axios'
-import GlobalSpin from '../customcomponents/spinner/page.jsx'
-import useGlobalModal from '../customcomponents/modal/page.jsx'
+import GlobalSpin from '../../components/customcomponents/spinner.jsx'
+import useGlobalModal from '../../components/customcomponents/modal.jsx'
 import { useRouter } from 'next/navigation'
 
 

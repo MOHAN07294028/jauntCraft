@@ -1,8 +1,10 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Montserrat } from 'next/font/google'
+import { AntdRegistry } from '@ant-design/nextjs-registry'
 import { SiteHeader } from '@/components/site/site-header'
 import { SiteFooter } from '@/components/site/site-footer'
+import { SiteFooterVisibility } from '@/components/site/site-footer-visibility'
 import './globals.css'
 
 const montserrat = Montserrat({
@@ -38,10 +40,14 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.variable}>
       <body className="antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <AntdRegistry>
+          <SiteHeader />
+          <main>{children}</main>
+          <SiteFooterVisibility>
+            <SiteFooter />
+          </SiteFooterVisibility>
+          {process.env.NODE_ENV === 'production' && <Analytics />}
+        </AntdRegistry>
       </body>
     </html>
   )

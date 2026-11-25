@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from './logo'
@@ -10,10 +10,23 @@ import { NAV_LINKS } from './site-data'
 
 export function SiteHeader() {
   const pathname = usePathname()
+  const router = useRouter()
   const [open, setOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const user = localStorage.getItem('user')
+    setIsLoggedIn(Boolean(user))
+  }, [pathname])
+
+  const handleLogout = () => {
+    localStorage.removeItem('user')
+    setIsLoggedIn(false)
+    setOpen(false)
+    router.push('/login')
+  }
 
   const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname.startsWith(href))
-
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 md:px-6">
@@ -39,12 +52,22 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden shrink-0 items-center gap-3 whitespace-nowrap xl:flex">
-          <Link
-            href="/contact"
-            className="rounded-full border border-foreground px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface"
-          >
-            Login
-          </Link>
+          {isLoggedIn ? (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="rounded-full bg-coral px-5 py-2.5 text-sm font-semibold text-white shadow-pill transition-colors hover:bg-[#e04838]"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-full border border-foreground px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-surface"
+            >
+              Login
+            </Link>
+          )}
           <Link
             href="/book-demo"
             className="rounded-full bg-coral px-5 py-2.5 text-sm font-semibold text-white shadow-pill transition-colors hover:bg-[#e04838]"
@@ -84,13 +107,32 @@ export function SiteHeader() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/book-demo"
-            onClick={() => setOpen(false)}
-            className="block rounded-full bg-coral px-5 py-3 text-center font-semibold text-white shadow-pill"
-          >
-            Book a Demo
-          </Link>
+          <div className="flex flex-col gap-3">
+            {isLoggedIn ? (
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="block w-full rounded-full bg-coral px-5 py-3 text-center font-semibold text-white shadow-pill"
+              >
+                Logout
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setOpen(false)}
+                className="block rounded-full border border-foreground px-5 py-3 text-center font-semibold transition-colors hover:bg-surface"
+              >
+                Login
+              </Link>
+            )}
+            <Link
+              href="/book-demo"
+              onClick={() => setOpen(false)}
+              className="block rounded-full bg-coral px-5 py-3 text-center font-semibold text-white shadow-pill"
+            >
+              Book a Demo
+            </Link>
+          </div>
         </nav>
       )}
     </header>
